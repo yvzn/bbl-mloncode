@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('./resources/Lato-Regular.woff2') format('woff2'),
+         url('./resources/Lato-Regular.woff') format('woff');
+}
+
+.reveal .slides * {
+    font-family: 'Lato', 'News Cycle', Impact, sans-serif;
+}
+
+.reveal .slides ul 
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.reveal .slides li 
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
