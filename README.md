@@ -42,4 +42,5 @@ Le texte de cette présentation est sous licence MIT.
 
 Cette présentation utilise:
 * du code source libre sous licence MIT (RevealJS) ou BSD (Highlight.js)
-* des polices sous licence OFL (Lato)
+* des polices sous licence OFL (Lato) (fichier OFL.txt)
+* des images sous licence Creative Commons [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/)
