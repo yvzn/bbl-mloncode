@@ -4,7 +4,8 @@ Devfest Nantes 2019
 
 note:
 * machine learning
-* on source code 
+* sur son source code 
+* retour sur le Codelab 
 
 ---
 
@@ -12,12 +13,20 @@ note:
 * Alex Bezzubov <!-- .element: class="fragment" -->
 * Hugo Mougard <!-- .element: class="fragment" -->
 
+note:
+* speakers
+* éditeur, data & analytics
+
+---
+
+<!-- .slide: data-background-image="resources/IMG_20191021_163223.jpeg" class="dark-bg" -->
+
 ---
 
 ## liens
 * [GitHub codelab](https://github.com/mloncode/devfest2019-workshop) 
 * [Slides codelab](https://docs.google.com/presentation/d/1vF0JMagmXXzn-h-OaJu6CsDt78oSQSg58YFJsBUaHxk/edit)
-* [Slides présentation](https://egorbu.github.io/usedata_2019/) 
+* [Slides présentation MLonCode](https://egorbu.github.io/usedata_2019/) 
 
 ---
 
@@ -25,7 +34,7 @@ note:
 
 note:
 * domaine récent (2-3 ans)
-* publications++ (MS, Google, FB)
+* beaucoup de publications récentes (MS, Google, FB)
 * conférences
 
 ---
@@ -36,8 +45,8 @@ note:
 
 note:
 * extraire des métriques
-* IntelliCode
-
+* identifier des (anti-)patterns
+* "IntelliCode" (auto-complétion contextuelle, refactoring, ...)
 
 ---
 
@@ -47,10 +56,11 @@ note:
 
 note:
 * plusieurs approches possibles
-* code "imite" le LN
-* une approche / hypothèse forte
-* patterns statistiques (~LN)
-* limites (structure du code)
+* considérer que la formulation du code "imite" le langage naturel (LN)
+  * identifiants, liens logiques (if, for, etc.)
+  * une hypothèse forte / un a priori fort
+* permet d'utiliser les patterns statistiques déjà connus en (LN)
+* a ses limites (structure du code)
 
 ---
 
@@ -62,7 +72,7 @@ note:
 1. Communication <!-- .element: class="fragment" -->
 
 note:
-* data science
+* projet de data science
 * tâches classiques
 
 ---
@@ -82,11 +92,10 @@ note:
 * API Github <!-- .element: class="fragment" -->
 
 note:
-* 1ère étape
 * donnée = code source
-* trivial ?
-* eviter les gros repos / seult repos avec x stars
-* exemple: Apache
+* peut sembler trivial ? problématiques de performance et de stockage
+* eviter les gros repos / seulement repos avec x stars
+* exemple d'organisation intéressante: Apache
 
 ---
 
@@ -95,9 +104,10 @@ note:
 * filtrage / nettoyage <!-- .element: class="fragment" -->
 
 note:
-* performance
-* vendor directories
-* protobuf configs ...
+* performances réseau (paralléliser)
+* nettoyer
+  * vendor directories
+  * configs protobuf ...
 
 ---
 
@@ -108,6 +118,7 @@ note:
 note:
 * expose les repos comme une base de données
 * simplifier l'exploration via SQL
+* outil développé par source{d}
 
 ---
 
@@ -116,7 +127,9 @@ note:
 ![modèle de données simplifié Gitbase](https://raw.githubusercontent.com/mloncode/devfest2019-workshop/master/notebooks/img/tables.png)
 
 note:
+* tables utilisées pour le codelab
 * blob_content = code source
+* plus rapide que de parser les fichiers du '.git'
 
 ---
 
@@ -126,7 +139,7 @@ note:
 ---
 
 ## Analyser la donnée
-* "juste" des caractères ? <!-- .element: class="fragment" -->
+* comme un flux des caractères ? <!-- .element: class="fragment" -->
 * parser les fichiers ? <!-- .element: class="fragment" -->
 * pour chaque langage ? <!-- .element: class="fragment" -->
 
@@ -136,7 +149,7 @@ note:
 ![capture d'écran Babelfish](resources/babelfish.png)
 
 note:
-* arbre syntaxique
+* outil permettant de construire un arbre syntaxique
 * a partir d'un fichier source
 
 ---
@@ -148,12 +161,12 @@ note:
 ---
 
 ## Babelfish
-* Requêtable en XPath <!-- .element: class="fragment" -->
+* Requêtable via XPath <!-- .element: class="fragment" -->
 * Requêtable via Gitbase <!-- .element: class="fragment" -->
 
 note:
 * facilité de mise en oeuvre
-* vs boucles / parsing / regexp
+* plus rapide que boucles / parsing / regexp à la main
 ---
 
 ## Babelfish
@@ -162,7 +175,7 @@ note:
 ---
 
 ## Similarité entre projets
-* utiliser les identifiants <!-- .element: class="fragment" -->
+* utiliser les identifiants pour analyser les projets <!-- .element: class="fragment" -->
 * apprentissage non supervisé <!-- .element: class="fragment" -->
 
 ---
@@ -172,20 +185,21 @@ note:
 * filtrer <!-- .element: class="fragment" -->
 
 note:
+* décomposer pour réduire le vocabulaire
+  * russian 150k, japanese 500K, ..., dev identifiers 49M
+  * enlever les identifiants rares / pas les stop words
 * Gitbase + babelfish
-* réduire le vocabulaire
-* russian 150k, japanese 500K, ..., dev identifiers 49M
-* enlever les identifiants rares / pas les stop words
 
 ---
 
 ## Topic Modeling
 * identifiants qui apparaissent souvent ensemble <!-- .element: class="fragment" -->
+* définit un topic <!-- .element: class="fragment" -->
 * non supervisé <!-- .element: class="fragment" -->
 
 note:
-* notion abstraite
-* pas de "signification" des topics 
+* notion abstraite pour la machine 
+* pas de "signification" des topics (topic_1, topic_2, ...) 
 
 ---
 
@@ -197,6 +211,10 @@ note:
 ## BigARTM
 * http://bigartm.org/
 
+note:
+* outil pour construire les topics en analysant le code source
+* définir le nombre de topics souhaités
+
 ---
 
 ## Topic Modeling
@@ -206,8 +224,9 @@ note:
 * comparer <!-- .element: class="fragment" -->
 
 note:
-* supprimer (mettre à 0) les topics avec des scores faibles
-* plus simple à interpréter
+* sparsing
+  * supprimer (mettre à 0) les topics avec des scores faibles
+  * plus simple à interpréter
 * pour tous les fichiers d'un même repo
 * topics du repo
 * comparaison abstraite repo/repo - repo/dev - dev/dev
@@ -222,6 +241,9 @@ note:
 ## pyLDAvis
 * https://github.com/bmabey/pyLDAvis
 
+note:
+* visualiser les topics générés par BigARTM
+
 ---
 
 ## Nommer une méthode
@@ -229,6 +251,7 @@ note:
 note:
 * modèles de traduction automatisée
 * OpenNMT / seq2seq
+* pas pu être abordé par manque de temps
 
 ---
 
@@ -240,15 +263,19 @@ note:
 note:
 * IntelliCode
 * auto-complétion en fonction du contexte
-* erreurs difficiles à identifier
-* patterns / code stytle
+* repérer les erreurs difficiles à identifier
+* (anti-)patterns / code stytle
 
 ---
 
 ## Conclusion
 * Etapes d'un projet de data science <!-- .element: class="fragment" -->
-* Outils <!-- .element: class="fragment" -->
+* Outils pour se faciliter la tâche <!-- .element: class="fragment" -->
 
 note:
 * la majorité du travail = collecter / nettoyer la data
-* Codelab dense
+
+---
+
+<!-- .slide: data-background-image="resources/IMG_20191021_164404.jpeg" class="dark-bg" -->
+
